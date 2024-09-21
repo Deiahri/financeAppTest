@@ -2,10 +2,10 @@ import e from 'express';
 import cors from 'cors';
 import { debug } from './tools.js';
 import './databaseTools.js';
-import { getAllCategories } from './databaseTools.js';
+import { getAllCategories, getLessonPath } from './databaseTools.js';
 
 const app = e();
-const ServerPort = 80;
+const ServerPort = 8080;
 
 app.use(e.json());
 app.use(cors({
@@ -16,6 +16,7 @@ app.use(cors({
 app.get('/online', (req, res) => {
     res.send({ status: true });
 });
+
 
 app.post('/get-categories', async (req, res) => {
     try {
@@ -28,9 +29,14 @@ app.post('/get-categories', async (req, res) => {
 });
 
 
-app.get('/get-categories-p', async (req, res) => {
+app.post('/get-lesson-path', async (req, res) => {
+    const { lessonPathID } = req;
+    if (!lessonPathID) {
+        res.send({ error: 'lessonPathID not specified' });
+    }
+
     try {
-        const data = await getAllCategories();
+        const data = await getLessonPath(lessonPathID);
         res.send({ data });
     } catch (e) {
         res.send({ error: e.message, status: 'failed' });
@@ -38,6 +44,17 @@ app.get('/get-categories-p', async (req, res) => {
     }
 });
 
+
+// app.get('/get-categories-p', async (req, res) => {
+//     try {
+//         const data = await getAllCategories();
+//         res.send({ data });
+//     } catch (e) {
+//         res.send({ error: e.message, status: 'failed' });
+//         return;
+//     }
+// });
+
 app.listen(ServerPort, () => {
-    debug('online http://localhost:8080');
+    debug('online on port '+ServerPort);
 });
