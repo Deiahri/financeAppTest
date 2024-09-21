@@ -5,7 +5,7 @@ import './databaseTools.js';
 import { getAllCategories } from './databaseTools.js';
 
 const app = e();
-const ServerPort = 8080;
+const ServerPort = 80;
 
 app.use(e.json());
 app.use(cors({
