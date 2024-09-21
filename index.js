@@ -1,4 +1,5 @@
 import e from 'express';
+import cors from 'cors';
 import { debug } from './tools.js';
 import './databaseTools.js';
 import { getAllCategories } from './databaseTools.js';
@@ -6,7 +7,28 @@ import { getAllCategories } from './databaseTools.js';
 const app = e();
 const ServerPort = 8080;
 
-app.get('/get-categories', async (req, res) => {
+app.use(e.json());
+app.use(cors({
+    origin: '*',
+    optionsSuccessStatus: 200
+}));
+
+app.get('/online', (req, res) => {
+    res.send({ status: true });
+});
+
+app.post('/get-categories', async (req, res) => {
+    try {
+        const data = await getAllCategories();
+        res.send({ data });
+    } catch (e) {
+        res.send({ error: e.message, status: 'failed' });
+        return;
+    }
+});
+
+
+app.get('/get-categories-p', async (req, res) => {
     try {
         const data = await getAllCategories();
         res.send({ data });
