@@ -4,6 +4,7 @@ import { debug } from './tools.js';
 const url = 'mongodb+srv://jundayin1:GIJyVxMAMg65SvBM@testcluster1.k9dbr.mongodb.net/?retryWrites=true&w=majority&appName=TestCluster1';
 let client, db, categoryCol, lessonPathCol;
 let initialized = false;
+let error = null;
 
 async function initializeMongoConnection() {
     try {
@@ -16,13 +17,16 @@ async function initializeMongoConnection() {
         lessonPathCol = db.collection('lessonPath');
         initialized = true;
     } catch (e) {
+        error = e.message;
         debug('problem getting mongo connection '+e.message);
     }
 }
 
 export async function getAllCategories() {
     if (!initialized) {
-        return { error: 'not initialized' };
+        return { error: 'not initialized',
+            message: error
+        };
     }
     return await categoryCol.find({}).toArray();
 }
