@@ -71,7 +71,7 @@ app.post('/submit-activity-performance', async (req, res) => {
 app.get('/submit-activity-performance', async (req, res) => {
     // debug(req.body.performance);
     const { userToken, performance, activityID } = req.body;
-    if (!userToken || !performance || !activityID) {
+    if (!userToken || isNaN(Number(performance)) || !activityID) {
         res.send({ error: 'missing parameters' })
         return;
     }
@@ -182,7 +182,7 @@ app.post('/get-user', async (req, res) => {
     }
 
     res.send({ ...userData });
-})
+});
 
 
 // app.get('/get-categories-p', async (req, res) => {
