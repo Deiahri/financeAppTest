@@ -93,10 +93,10 @@ app.post('/login', async (req, res) => {
         return;
     }
 
-    let userData;
+    let tokenData;
     try {
-        userData = await getUserWithEmail(email);
-        if (!userData) {
+        tokenData = await getUserWithEmail(email);
+        if (!tokenData) {
             throw new Error();
         }
     } catch (e) {
@@ -106,13 +106,13 @@ app.post('/login', async (req, res) => {
 
 
     // compare password
-    const pass = decryptUserToken(userData.password);
+    const pass = decryptUserToken(tokenData.password);
     if (pass.email !== password) {
         res.send({error: 'password incorrect'});
         return;
     }
     
-    res.send({ userToken: generateUserToken(email), username: userData.username });
+    res.send({ userToken: generateUserToken(email), username: tokenData.username });
 });
 
 app.post('/create-user', async (req, res) => {
@@ -151,6 +151,38 @@ app.post('/create-user', async (req, res) => {
         return;
     }
 });
+
+app.post('/get-user', async (req, res) => {
+    const { userToken } = req.body;
+    let tokenData;
+    if (!userToken) {
+        res.send({ error : 'missing params' });
+        return;
+    }
+    try {
+        tokenData = decryptUserToken(userToken);
+        if (!tokenData) { 
+            throw new Error('');
+        }
+    } catch (e) {
+        res.send({ error: 'invalid user token' });
+        return;
+    }
+
+    const { email } = tokenData;
+    let userData;
+    try {
+        userData = await getUserWithEmail(email);
+        if (!userData) {
+            throw new Error();
+        }
+    } catch (e) {
+        res.send({ error: 'user does not exist for given token' });
+        return;
+    }
+
+    res.send({ ...userData });
+})
 
 
 // app.get('/get-categories-p', async (req, res) => {

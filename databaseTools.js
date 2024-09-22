@@ -161,7 +161,9 @@ setTimeout(async () => {
     //     })
     // });
     // debug(ress);
-    createUser({ username: 'jackman', password: 'hello!', email: 'jack@gmail.com' });
+    // createUser({ username: 'jackman', password: 'hello!', email: 'jack@gmail.com' });
+    console.log(decryptUserToken(generateUserToken('dytlin@gmail.com')));
+    console.log(decryptUserToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImR5dGxpbkBnbWFpbC5jb20iLCJpYXQiOjE3MjcwMDUxMzI1ODV9.Um7EUfUL-m1bVMtttuhH7K4kxqIuGq-QsZzZcQJUr8w'));
 }, 1500);
 
 // export async function testInsert() {
