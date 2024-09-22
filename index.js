@@ -54,6 +54,10 @@ app.post('/submit-activity-performance', async (req, res) => {
     debug(req.body.performance);
     res.send({ 'okay': 'dokay' });
 });
+app.get('/submit-activity-performance', async (req, res) => {
+    debug(req.body.performance);
+    res.send({ 'okay': 'dokay' });
+});
 
 // app.get('/get-categories-p', async (req, res) => {
 //     try {
