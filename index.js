@@ -8,10 +8,11 @@ const app = e();
 const ServerPort = 8080;
 
 app.use(e.json());
-app.use(cors({
-    origin: '*',
-    optionsSuccessStatus: 200
-}));
+// app.use(cors({
+//     origin: '*',
+//     optionsSuccessStatus: 200
+// }));
+app.use(cors());
 
 app.get('/online', (req, res) => {
     res.send({ status: true });
