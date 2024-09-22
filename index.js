@@ -53,7 +53,7 @@ app.post('/get-lesson-path', async (req, res) => {
 app.post('/submit-activity-performance', async (req, res) => {
     // debug(req.body.performance);
     const { userToken, performance, activityID } = req.body;
-    if (!userToken || !performance || !activityID) {
+    if (!userToken || isNaN(Number(performance)) || !activityID) {
         res.send({ error: 'missing parameters' })
         return;
     }
