@@ -78,7 +78,7 @@ export async function getUserWithEmail(email) {
 export async function createUser({ username, password, email }) {
     // encrypts password first
     console.log('created?');
-    await userCol.insertOne({ username, password: generateUserToken(password), email });
+    await userCol.insertOne({ username, password: generateUserToken(password), email: email.toLowerCase() });
     console.log('created?!');
 }
 
